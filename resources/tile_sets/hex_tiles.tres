@@ -1,0 +1,15 @@
+[gd_resource type="TileSet" format=3 uid="uid://trry3a3xfbpw"]
+
+[ext_resource type="Texture2D" uid="uid://cw15vyvihr8wl" path="res://assets/tilemaps/pointy_hexagon_tilemap.png" id="2_oqgru"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pgl88"]
+texture = ExtResource("2_oqgru")
+texture_region_size = Vector2i(16, 17)
+0:0/0 = 0
+1:0/0 = 0
+
+[resource]
+tile_shape = 3
+tile_layout = 4
+tile_size = Vector2i(16, 17)
+sources/1 = SubResource("TileSetAtlasSource_pgl88")
