@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://dobhdx7ob0n8i"]
+
+[ext_resource type="Script" uid="uid://cfbbagmt6j1yc" path="res://scenes/structures/structure_label.gd" id="1_ppd3u"]
+[ext_resource type="Theme" uid="uid://vmk18jjueotx" path="res://themes/pixel_theme.tres" id="2_s5ovw"]
+[ext_resource type="FontFile" uid="uid://bguriayplp5qj" path="res://assets/fonts/ithaca-font/Ithaca-LVB75.ttf" id="3_5gpus"]
+[ext_resource type="Texture2D" uid="uid://bhql1gulhd0n0" path="res://assets/sprites/coin.png" id="4_824ku"]
+[ext_resource type="Texture2D" uid="uid://4mp6ikmvxntm" path="res://assets/sprites/person.png" id="5_s5ovw"]
+
+[node name="StructureLabel" type="Node2D" unique_id=297208867]
+visible = false
+z_index = 10
+script = ExtResource("1_ppd3u")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=119408398]
+custom_minimum_size = Vector2(20, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -4.0
+offset_right = 10.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_s5ovw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer" unique_id=352308732]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Name" type="Label" parent="PanelContainer/HBoxContainer" unique_id=468831435]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("3_5gpus")
+theme_override_font_sizes/font_size = 4
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer" unique_id=1315363016]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 1
+
+[node name="CoinTexture" type="TextureRect" parent="PanelContainer/HBoxContainer/MarginContainer" unique_id=1083379930]
+layout_mode = 2
+texture = ExtResource("4_824ku")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Coins" type="Label" parent="PanelContainer/HBoxContainer" unique_id=1352121895]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0.49019608, 1)
+theme_override_fonts/font = ExtResource("3_5gpus")
+theme_override_font_sizes/font_size = 4
+text = "52"
+
+[node name="PersonTexture" type="TextureRect" parent="PanelContainer/HBoxContainer" unique_id=13589462]
+layout_mode = 2
+texture = ExtResource("5_s5ovw")
+expand_mode = 3
+
+[node name="Population" type="Label" parent="PanelContainer/HBoxContainer" unique_id=1397741619]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_5gpus")
+theme_override_font_sizes/font_size = 4
+text = "23"

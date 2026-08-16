@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://cicdywlp6p4py"]
+
+[ext_resource type="Theme" uid="uid://b5nqnkdabevlt" path="res://themes/pick_colour.tres" id="1_m53ga"]
+[ext_resource type="Script" uid="uid://cb70e44jiyk6m" path="res://scenes/ui/enter_structure_name/enter_structure_name.gd" id="1_rblhj"]
+[ext_resource type="Texture2D" uid="uid://dvd0qj73v7nkq" path="res://assets/sprites/random.png" id="3_il04x"]
+[ext_resource type="Texture2D" uid="uid://cbw721kqltcgy" path="res://assets/sprites/random_pressed.png" id="4_g8p20"]
+[ext_resource type="Texture2D" uid="uid://447l4utykh51" path="res://assets/sprites/random_hovered.png" id="5_5bkyp"]
+[ext_resource type="Script" uid="uid://cbvsw4aaf2ku" path="res://scenes/ui/enter_structure_name/town_name_generator.gd" id="6_g8p20"]
+
+[node name="EnterStructureName" type="Control" unique_id=1178826391]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rblhj")
+
+[node name="bg" type="ColorRect" parent="." unique_id=1013890697]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0.78431374)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1370123470]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 42
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 42
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1838223564]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer" unique_id=1820622023]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme = ExtResource("1_m53ga")
+theme_override_font_sizes/font_size = 8
+placeholder_text = "Enter Village Name..."
+alignment = 1
+max_length = 18
+
+[node name="Random" type="TextureButton" parent="MarginContainer/HBoxContainer" unique_id=1253949287]
+layout_mode = 2
+texture_normal = ExtResource("3_il04x")
+texture_pressed = ExtResource("4_g8p20")
+texture_hover = ExtResource("5_5bkyp")
+stretch_mode = 3
+
+[node name="RandomNameGenerator" type="Control" parent="." unique_id=245616946]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_g8p20")
+
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Random" to="." method="_on_random_pressed"]

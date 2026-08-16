@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://c2tg4oovin8n5"]
+
+[ext_resource type="FontFile" uid="uid://bguriayplp5qj" path="res://assets/fonts/ithaca-font/Ithaca-LVB75.ttf" id="1_dhwqc"]
+[ext_resource type="Script" uid="uid://dvlqrahhkq4of" path="res://scenes/ui/structure_info/structure_info.gd" id="1_vmwwq"]
+[ext_resource type="Texture2D" uid="uid://fovyugaq1pqx" path="res://assets/sprites/panel_background.png" id="2_vmwwq"]
+[ext_resource type="Texture2D" uid="uid://cb8qgd2sfg0qn" path="res://assets/sprites/edit_button.png" id="4_im66m"]
+[ext_resource type="Texture2D" uid="uid://bahnqo06p1k71" path="res://assets/sprites/edit_button_pressed.png" id="5_7siwh"]
+[ext_resource type="Texture2D" uid="uid://b3m5wi60ew8j7" path="res://assets/sprites/edit_button_hovered.png" id="6_cs6r4"]
+[ext_resource type="Texture2D" uid="uid://bhql1gulhd0n0" path="res://assets/sprites/coin.png" id="7_7siwh"]
+[ext_resource type="Texture2D" uid="uid://4mp6ikmvxntm" path="res://assets/sprites/person.png" id="8_cs6r4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vmwwq"]
+texture = ExtResource("2_vmwwq")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w2fa2"]
+texture = ExtResource("2_vmwwq")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+modulate_color = Color(0.21410304, 0.21410304, 0.21410301, 1)
+
+[sub_resource type="Theme" id="Theme_65mgq"]
+Label/fonts/font = ExtResource("1_dhwqc")
+Panel/styles/panel = SubResource("StyleBoxTexture_vmwwq")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_w2fa2")
+
+[node name="StructureInfo" type="Control" unique_id=845651945]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_vmwwq")
+
+[node name="bg" type="ColorRect" parent="." unique_id=947292096]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0.78431374)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=490781803]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=886281084]
+layout_mode = 2
+theme = SubResource("Theme_65mgq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer" unique_id=733248626]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer" unique_id=273002779]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=389618311]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 1
+
+[node name="EditTitleButton" type="TextureButton" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=110068612]
+layout_mode = 2
+texture_normal = ExtResource("4_im66m")
+texture_pressed = ExtResource("5_7siwh")
+texture_hover = ExtResource("6_cs6r4")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer" unique_id=872662861]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer2" unique_id=234582697]
+layout_mode = 2
+texture = ExtResource("7_7siwh")
+expand_mode = 2
+
+[node name="MoneyLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer2" unique_id=1739547240]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Money: "
+
+[node name="Money" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer2" unique_id=725720635]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer" unique_id=2081964083]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer3" unique_id=788909576]
+layout_mode = 2
+texture = ExtResource("8_cs6r4")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="PopulationLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer3" unique_id=325454027]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Population: "
+
+[node name="Population" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer3" unique_id=547308025]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+
+[connection signal="gui_input" from="bg" to="." method="_on_bg_gui_input"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/EditTitleButton" to="." method="_on_edit_title_button_pressed"]

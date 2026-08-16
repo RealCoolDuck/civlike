@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MovableDefinition" format=3 uid="uid://d06b5laipv20e"]
+
+[ext_resource type="Script" uid="uid://sgswkjigeypr" path="res://resources/movables/movable_definition.gd" id="1_b3xjb"]
+[ext_resource type="Texture2D" uid="uid://ctpxmdjxfr0nc" path="res://assets/sprites/troops.png" id="2_rwjtn"]
+
+[resource]
+script = ExtResource("1_b3xjb")
+range = 3
+walks = true
+texture = ExtResource("2_rwjtn")
+metadata/_custom_type_script = "uid://sgswkjigeypr"

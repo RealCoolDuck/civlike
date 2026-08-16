@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://bfhn2sns7l61y"]
+
+[ext_resource type="Script" uid="uid://b4ue0eg1gg0xn" path="res://scenes/main/main.gd" id="1_6q06x"]
+[ext_resource type="Script" uid="uid://c0d27u1c01trg" path="res://scenes/main/camera.gd" id="1_hyk8p"]
+[ext_resource type="Script" uid="uid://btmah3rff73p0" path="res://resources/structures/structure_definition.gd" id="2_hujxm"]
+[ext_resource type="PackedScene" uid="uid://cxdgwp0khhtkg" path="res://scenes/map/hex_map.tscn" id="2_iuonh"]
+[ext_resource type="Script" uid="uid://sgswkjigeypr" path="res://resources/movables/movable_definition.gd" id="3_l3cfh"]
+[ext_resource type="Resource" uid="uid://dpy5lg7oarrx4" path="res://resources/structures/village.tres" id="3_yyfjg"]
+[ext_resource type="Resource" uid="uid://d06b5laipv20e" path="res://resources/movables/troops.tres" id="4_6q06x"]
+[ext_resource type="PackedScene" uid="uid://rh04hfxs04hl" path="res://scenes/map/hex_borders/hex_borders.tscn" id="4_yyfjg"]
+[ext_resource type="Shader" uid="uid://bbs5kj6uo6k6g" path="res://scenes/main/fog.gdshader" id="9_7smn1"]
+[ext_resource type="PackedScene" uid="uid://bcyy28vg407lq" path="res://scenes/ui/pick_colour/pick_color.tscn" id="12_blune"]
+[ext_resource type="FontFile" uid="uid://bguriayplp5qj" path="res://assets/fonts/ithaca-font/Ithaca-LVB75.ttf" id="13_th5th"]
+[ext_resource type="Texture2D" uid="uid://bunwwgrx3wgee" path="res://assets/sprites/info_icon.png" id="15_raeie"]
+[ext_resource type="Texture2D" uid="uid://cqkc1yqqkaers" path="res://assets/sprites/info_icon_pressed.png" id="16_nvumn"]
+[ext_resource type="Texture2D" uid="uid://ba2ohb1u7j1e7" path="res://assets/sprites/train_army.png" id="18_m4h2d"]
+[ext_resource type="PackedScene" uid="uid://c2tg4oovin8n5" path="res://scenes/ui/structure_info/structure_info.tscn" id="18_ou6is"]
+[ext_resource type="PackedScene" uid="uid://cicdywlp6p4py" path="res://scenes/ui/enter_structure_name/enter_structure_name.tscn" id="19_necax"]
+[ext_resource type="Texture2D" uid="uid://dxiuvhbmhtojn" path="res://assets/sprites/train_army_pressed.png" id="19_p8abn"]
+[ext_resource type="Texture2D" uid="uid://dgl7bcvg683jm" path="res://assets/sprites/train_army_hovered.png" id="20_s17dp"]
+[ext_resource type="Texture2D" uid="uid://wdlhhuxd607p" path="res://assets/sprites/build_button.png" id="21_37hlw"]
+[ext_resource type="Texture2D" uid="uid://dkoeaenqvdd48" path="res://assets/sprites/build_button_pressed.png" id="22_6llfj"]
+[ext_resource type="Texture2D" uid="uid://lvcx15wm0gxg" path="res://assets/sprites/build_button_hovered.png" id="23_0bhws"]
+[ext_resource type="Texture2D" uid="uid://cedutlh5p4md" path="res://assets/sprites/info_icon_hovered.png" id="23_37hlw"]
+[ext_resource type="PackedScene" uid="uid://ije33psiygxv" path="res://scenes/ui/build_panel/build_panel.tscn" id="23_p8abn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_th5th"]
+shader = ExtResource("9_7smn1")
+shader_parameter/fog_speed = 0.1
+
+[node name="Main" type="Node2D" unique_id=21704347]
+script = ExtResource("1_6q06x")
+structure_definitions = Array[ExtResource("2_hujxm")]([ExtResource("3_yyfjg")])
+
+[node name="HexBorders" parent="." unique_id=857492293 node_paths=PackedStringArray("map") instance=ExtResource("4_yyfjg")]
+map = NodePath("../HexMap")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=159356535]
+script = ExtResource("1_hyk8p")
+
+[node name="HexMap" parent="." unique_id=869536201 node_paths=PackedStringArray("hex_borders") instance=ExtResource("2_iuonh")]
+movables_definitions = Array[ExtResource("3_l3cfh")]([ExtResource("4_6q06x")])
+hex_borders = NodePath("../HexBorders")
+
+[node name="Fog" type="ColorRect" parent="." unique_id=1630155946]
+material = SubResource("ShaderMaterial_th5th")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(50, 50)
+mouse_filter = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=933161837]
+
+[node name="PickColor" type="Control" parent="CanvasLayer" unique_id=1838582913]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg" type="ColorRect" parent="CanvasLayer/PickColor" unique_id=1725524522]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.78431374)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PickColor" unique_id=1949616565]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 8
+
+[node name="PickColor" parent="CanvasLayer/PickColor/MarginContainer" unique_id=47746486 instance=ExtResource("12_blune")]
+layout_mode = 2
+
+[node name="InfoLabel" type="Label" parent="CanvasLayer" unique_id=502917012]
+visible = false
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("13_th5th")
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
+
+[node name="StructureButtons" type="HBoxContainer" parent="CanvasLayer" unique_id=1082235677]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 2
+
+[node name="BuildButton" type="TextureButton" parent="CanvasLayer/StructureButtons" unique_id=898051511]
+layout_mode = 2
+texture_normal = ExtResource("21_37hlw")
+texture_pressed = ExtResource("22_6llfj")
+texture_hover = ExtResource("23_0bhws")
+
+[node name="TrainButton" type="TextureButton" parent="CanvasLayer/StructureButtons" unique_id=1105743456]
+layout_mode = 2
+texture_normal = ExtResource("18_m4h2d")
+texture_pressed = ExtResource("19_p8abn")
+texture_hover = ExtResource("20_s17dp")
+
+[node name="InfoButton" type="TextureButton" parent="CanvasLayer/StructureButtons" unique_id=137750881]
+layout_mode = 2
+texture_normal = ExtResource("15_raeie")
+texture_pressed = ExtResource("16_nvumn")
+texture_hover = ExtResource("23_37hlw")
+stretch_mode = 1
+
+[node name="StructureInfo" parent="CanvasLayer" unique_id=845651945 instance=ExtResource("18_ou6is")]
+visible = false
+
+[node name="EnterStructureName" parent="CanvasLayer" unique_id=1178826391 instance=ExtResource("19_necax")]
+visible = false
+
+[node name="BuildPanel" parent="CanvasLayer" unique_id=697561408 instance=ExtResource("23_p8abn")]
+visible = false
+
+[connection signal="color_picked" from="CanvasLayer/PickColor/MarginContainer/PickColor" to="." method="_on_pick_color_color_picked"]
+[connection signal="pressed" from="CanvasLayer/StructureButtons/BuildButton" to="." method="_on_build_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/StructureButtons/InfoButton" to="." method="_on_info_button_pressed"]
+[connection signal="edit_structure_title" from="CanvasLayer/StructureInfo" to="." method="_on_structure_info_edit_structure_title"]
+[connection signal="exit" from="CanvasLayer/StructureInfo" to="." method="_on_structure_info_exit"]
+[connection signal="name_submitted" from="CanvasLayer/EnterStructureName" to="." method="_on_enter_structure_name_name_submitted"]
+[connection signal="structure_upgade_pressed" from="CanvasLayer/BuildPanel" to="." method="_structure_upgade_pressed"]

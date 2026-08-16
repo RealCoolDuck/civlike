@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bg2i2d66nckm8"]
+
+[ext_resource type="Script" uid="uid://dnut5qwbpx6qu" path="res://scenes/ui/pick_colour/color_box.gd" id="1_0sjqo"]
+[ext_resource type="Texture2D" uid="uid://fovyugaq1pqx" path="res://assets/sprites/panel_background.png" id="1_lstus"]
+[ext_resource type="Texture2D" uid="uid://dbibt61fh7405" path="res://assets/sprites/button_pressed_background.png" id="2_8lqdx"]
+[ext_resource type="Texture2D" uid="uid://061q0m6bc5ib" path="res://assets/sprites/button_hovered_background.png" id="3_q1dyh"]
+
+[node name="ColourBox" type="NinePatchRect" unique_id=118136216]
+custom_minimum_size = Vector2(10, 10)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("1_lstus")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+script = ExtResource("1_0sjqo")
+default_texture = ExtResource("1_lstus")
+hovered_texture = ExtResource("3_q1dyh")
+pressed_texture = ExtResource("2_8lqdx")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

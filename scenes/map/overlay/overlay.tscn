@@ -1,0 +1,12 @@
+[gd_scene format=4 uid="uid://drakmsb6pabjc"]
+
+[ext_resource type="TileSet" uid="uid://trry3a3xfbpw" path="res://resources/tile_sets/hex_tiles.tres" id="1_50451"]
+[ext_resource type="Script" uid="uid://dybvxq3gviy6j" path="res://scenes/map/overlay/overlay_tile_map_layer.gd" id="2_o3ay6"]
+
+[node name="Overlay" type="Node2D" unique_id=427158418]
+
+[node name="OverlayTileMapLayer" type="TileMapLayer" parent="." unique_id=198730160]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAD/////AAAAAAEAAAAAAAAAAAAAAAEAAAAAAP//AAAAAAEAAAD///7/AAAAAAEAAAD//wAAAAAAAAEAAAAAAAEAAAAAAAEAAAABAAAAAAAAAAEAAAABAAEAAAAAAAEAAAD+////AAAAAAEAAAD+//7/AAAAAAEAAAD+/wEAAAAAAAEAAAD+/wAAAAAAAAEAAAD//wEAAAAAAAEAAAABAP//AAAAAAEAAAABAP7/AAAAAAEAAAAAAP7/AAAAAAEAAAA=")
+tile_set = ExtResource("1_50451")
+script = ExtResource("2_o3ay6")

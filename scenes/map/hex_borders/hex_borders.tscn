@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://rh04hfxs04hl"]
+
+[ext_resource type="Script" uid="uid://b6w7rojf7ufi4" path="res://scenes/map/hex_borders/hex_borders.gd" id="1_anaf8"]
+
+[node name="HexBorders" type="Node2D" unique_id=857492293]
+script = ExtResource("1_anaf8")

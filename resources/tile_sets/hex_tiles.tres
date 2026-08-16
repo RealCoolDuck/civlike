@@ -1,15 +1,20 @@
 [gd_resource type="TileSet" format=3 uid="uid://trry3a3xfbpw"]
 
-[ext_resource type="Texture2D" uid="uid://cw15vyvihr8wl" path="res://assets/tilemaps/pointy_hexagon_tilemap.png" id="2_oqgru"]
+[ext_resource type="Texture2D" uid="uid://b3gmws1mm4s0p" path="res://assets/tilemaps/isometric_atlas.png" id="1_pgl88"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pgl88"]
-texture = ExtResource("2_oqgru")
-texture_region_size = Vector2i(16, 17)
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c0ejg"]
+texture = ExtResource("1_pgl88")
+separation = Vector2i(0, 8)
+texture_region_size = Vector2i(26, 26)
 0:0/0 = 0
 1:0/0 = 0
+2:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:1/0 = 0
 
 [resource]
 tile_shape = 3
 tile_layout = 4
-tile_size = Vector2i(16, 17)
-sources/1 = SubResource("TileSetAtlasSource_pgl88")
+tile_size = Vector2i(26, 25)
+sources/0 = SubResource("TileSetAtlasSource_c0ejg")

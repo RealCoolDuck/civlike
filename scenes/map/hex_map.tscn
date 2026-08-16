@@ -5,20 +5,21 @@
 [ext_resource type="TileSet" uid="uid://trry3a3xfbpw" path="res://resources/tile_sets/hex_tiles.tres" id="2_eqyvv"]
 [ext_resource type="Resource" uid="uid://cvw5c4igrmey7" path="res://resources/tiles/RedTile.tres" id="3_mbwj7"]
 [ext_resource type="Resource" uid="uid://7c5gq7schl8w" path="res://resources/tiles/BlueTile.tres" id="4_7i2la"]
-[ext_resource type="Script" uid="uid://c0d27u1c01trg" path="res://scenes/map/camera.gd" id="6_ropgo"]
+[ext_resource type="PackedScene" uid="uid://cwtv6tugm1q3f" path="res://scenes/map/hover_tile/hover_tile.tscn" id="6_ropgo"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ropgo"]
-frequency = 0.5
+frequency = 0.05
 
 [node name="HexMap" type="Node2D" unique_id=869536201]
+y_sort_enabled = true
 script = ExtResource("1_tmd4b")
 height_noise = SubResource("FastNoiseLite_ropgo")
 tiles = Array[ExtResource("2_51d80")]([ExtResource("3_mbwj7"), ExtResource("4_7i2la")])
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1488505661]
+[node name="Terrain" type="TileMapLayer" parent="." unique_id=1488505661]
 y_sort_enabled = true
-position = Vector2(-8, -8.5)
 tile_set = ExtResource("2_eqyvv")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=203639540]
-script = ExtResource("6_ropgo")
+[node name="HoverTile" parent="." unique_id=1954758253 instance=ExtResource("6_ropgo")]
+bob_height = 1.0
+bob_speed = 2.0
