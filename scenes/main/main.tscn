@@ -8,13 +8,17 @@
 [ext_resource type="Resource" uid="uid://dpy5lg7oarrx4" path="res://resources/structures/village.tres" id="3_yyfjg"]
 [ext_resource type="Resource" uid="uid://d06b5laipv20e" path="res://resources/movables/troops.tres" id="4_6q06x"]
 [ext_resource type="PackedScene" uid="uid://rh04hfxs04hl" path="res://scenes/map/hex_borders/hex_borders.tscn" id="4_yyfjg"]
+[ext_resource type="Script" uid="uid://drhr64g7tn2p" path="res://resources/tiles/hex_tile_definition.gd" id="7_62f45"]
+[ext_resource type="Resource" uid="uid://cvw5c4igrmey7" path="res://resources/tiles/RedTile.tres" id="8_6g32y"]
+[ext_resource type="Resource" uid="uid://7c5gq7schl8w" path="res://resources/tiles/BlueTile.tres" id="9_5nwjq"]
 [ext_resource type="Shader" uid="uid://bbs5kj6uo6k6g" path="res://scenes/main/fog.gdshader" id="9_7smn1"]
+[ext_resource type="Resource" uid="uid://dxp3x4xl211iw" path="res://resources/movables/boat.tres" id="9_r1bmu"]
+[ext_resource type="Resource" uid="uid://eetlr6v2nl3a" path="res://resources/tiles/SnowTile.tres" id="10_g2upo"]
 [ext_resource type="PackedScene" uid="uid://bcyy28vg407lq" path="res://scenes/ui/pick_colour/pick_color.tscn" id="12_blune"]
 [ext_resource type="FontFile" uid="uid://bguriayplp5qj" path="res://assets/fonts/ithaca-font/Ithaca-LVB75.ttf" id="13_th5th"]
 [ext_resource type="Texture2D" uid="uid://bunwwgrx3wgee" path="res://assets/sprites/info_icon.png" id="15_raeie"]
 [ext_resource type="Texture2D" uid="uid://cqkc1yqqkaers" path="res://assets/sprites/info_icon_pressed.png" id="16_nvumn"]
 [ext_resource type="Texture2D" uid="uid://ba2ohb1u7j1e7" path="res://assets/sprites/train_army.png" id="18_m4h2d"]
-[ext_resource type="PackedScene" uid="uid://c2tg4oovin8n5" path="res://scenes/ui/structure_info/structure_info.tscn" id="18_ou6is"]
 [ext_resource type="PackedScene" uid="uid://cicdywlp6p4py" path="res://scenes/ui/enter_structure_name/enter_structure_name.tscn" id="19_necax"]
 [ext_resource type="Texture2D" uid="uid://dxiuvhbmhtojn" path="res://assets/sprites/train_army_pressed.png" id="19_p8abn"]
 [ext_resource type="Texture2D" uid="uid://dgl7bcvg683jm" path="res://assets/sprites/train_army_hovered.png" id="20_s17dp"]
@@ -22,11 +26,26 @@
 [ext_resource type="Texture2D" uid="uid://dkoeaenqvdd48" path="res://assets/sprites/build_button_pressed.png" id="22_6llfj"]
 [ext_resource type="Texture2D" uid="uid://lvcx15wm0gxg" path="res://assets/sprites/build_button_hovered.png" id="23_0bhws"]
 [ext_resource type="Texture2D" uid="uid://cedutlh5p4md" path="res://assets/sprites/info_icon_hovered.png" id="23_37hlw"]
-[ext_resource type="PackedScene" uid="uid://ije33psiygxv" path="res://scenes/ui/build_panel/build_panel.tscn" id="23_p8abn"]
+[ext_resource type="PackedScene" uid="uid://ys17clyxklv0" path="res://scenes/ui/panel/panel.tscn" id="23_p8abn"]
+[ext_resource type="PackedScene" uid="uid://db647sgu2mpaa" path="res://scenes/ui/title.tscn" id="23_s17dp"]
+[ext_resource type="PackedScene" uid="uid://dlipuu7djidim" path="res://scenes/ui/button_label.tscn" id="24_s17dp"]
+[ext_resource type="Texture2D" uid="uid://dy85lf771gsa8" path="res://assets/sprites/upgrade_button.png" id="25_0bhws"]
+[ext_resource type="Texture2D" uid="uid://cc3fu4dpnaex5" path="res://assets/sprites/upgrade_button_hover.png" id="26_62atk"]
+[ext_resource type="Texture2D" uid="uid://4egio5xpku0b" path="res://assets/sprites/upgrade_button_pressed.png" id="27_i7in8"]
+[ext_resource type="Script" uid="uid://tlxd2hwce0a7" path="res://scenes/main/structure_name.gd" id="28_62atk"]
+[ext_resource type="Theme" uid="uid://b5nqnkdabevlt" path="res://themes/pick_colour.tres" id="28_i7in8"]
+[ext_resource type="Texture2D" uid="uid://cb8qgd2sfg0qn" path="res://assets/sprites/edit_button.png" id="30_ii537"]
+[ext_resource type="Texture2D" uid="uid://b3m5wi60ew8j7" path="res://assets/sprites/edit_button_hovered.png" id="31_rofvo"]
+[ext_resource type="Texture2D" uid="uid://bahnqo06p1k71" path="res://assets/sprites/edit_button_pressed.png" id="32_tbnf8"]
+[ext_resource type="Script" uid="uid://b5ggjbph3o4q6" path="res://scenes/main/follow_cursor.gd" id="33_rofvo"]
+[ext_resource type="PackedScene" uid="uid://dnwua1dkos0t3" path="res://scenes/ui/army_info.tscn" id="33_tbnf8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_th5th"]
 shader = ExtResource("9_7smn1")
 shader_parameter/fog_speed = 0.1
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ii537"]
+color = Color(0.78352344, 0.7835234, 0.7835234, 1)
 
 [node name="Main" type="Node2D" unique_id=21704347]
 script = ExtResource("1_6q06x")
@@ -39,7 +58,8 @@ map = NodePath("../HexMap")
 script = ExtResource("1_hyk8p")
 
 [node name="HexMap" parent="." unique_id=869536201 node_paths=PackedStringArray("hex_borders") instance=ExtResource("2_iuonh")]
-movables_definitions = Array[ExtResource("3_l3cfh")]([ExtResource("4_6q06x")])
+tiles = Array[ExtResource("7_62f45")]([ExtResource("8_6g32y"), ExtResource("9_5nwjq"), ExtResource("10_g2upo")])
+movables_definitions = Array[ExtResource("3_l3cfh")]([ExtResource("4_6q06x"), ExtResource("9_r1bmu")])
 hex_borders = NodePath("../HexBorders")
 
 [node name="Fog" type="ColorRect" parent="." unique_id=1630155946]
@@ -133,19 +153,169 @@ texture_pressed = ExtResource("16_nvumn")
 texture_hover = ExtResource("23_37hlw")
 stretch_mode = 1
 
-[node name="StructureInfo" parent="CanvasLayer" unique_id=845651945 instance=ExtResource("18_ou6is")]
-visible = false
-
 [node name="EnterStructureName" parent="CanvasLayer" unique_id=1178826391 instance=ExtResource("19_necax")]
 visible = false
 
-[node name="BuildPanel" parent="CanvasLayer" unique_id=697561408 instance=ExtResource("23_p8abn")]
+[node name="BuildPanel" parent="CanvasLayer" unique_id=1219030131 node_paths=PackedStringArray("panel_button") instance=ExtResource("23_p8abn")]
 visible = false
+panel_button = NodePath("../StructureButtons/BuildButton")
+
+[node name="title" parent="CanvasLayer/BuildPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1219030131, 611193045) index="0" unique_id=1377510234 instance=ExtResource("23_s17dp")]
+layout_mode = 2
+text = "Build"
+
+[node name="upgrade_button" parent="CanvasLayer/BuildPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1219030131, 611193045) index="1" unique_id=111820653 instance=ExtResource("24_s17dp")]
+layout_mode = 2
+button_texture = ExtResource("25_0bhws")
+button_hovered_texture = ExtResource("26_62atk")
+button_pressed_texture = ExtResource("27_i7in8")
+text = "Upgrade"
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/BuildPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1219030131, 611193045) index="2" unique_id=1441192683]
+layout_mode = 2
+theme_override_constants/separation = -4
+theme_override_styles/separator = SubResource("StyleBoxLine_ii537")
+
+[node name="Label" type="Label" parent="CanvasLayer/BuildPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1219030131, 611193045) index="3" unique_id=1359596839]
+layout_mode = 2
+theme = ExtResource("28_i7in8")
+theme_override_font_sizes/font_size = 4
+text = "More coming soon"
+
+[node name="TrainPanel" parent="CanvasLayer" unique_id=291166867 node_paths=PackedStringArray("panel_button") instance=ExtResource("23_p8abn")]
+visible = false
+panel_button = NodePath("../StructureButtons/TrainButton")
+
+[node name="title" parent="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(291166867, 611193045) index="0" unique_id=632033531 instance=ExtResource("23_s17dp")]
+layout_mode = 2
+text = "Train"
+
+[node name="Swordsmen" parent="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(291166867, 611193045) index="1" unique_id=1919401900 instance=ExtResource("24_s17dp")]
+layout_mode = 2
+button_texture = ExtResource("18_m4h2d")
+button_hovered_texture = ExtResource("20_s17dp")
+button_pressed_texture = ExtResource("19_p8abn")
+text = "Swordsmen"
+
+[node name="Archers" parent="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(291166867, 611193045) index="2" unique_id=888647297 instance=ExtResource("24_s17dp")]
+layout_mode = 2
+button_texture = ExtResource("18_m4h2d")
+button_hovered_texture = ExtResource("20_s17dp")
+button_pressed_texture = ExtResource("19_p8abn")
+text = "Archers"
+
+[node name="Pikemen" parent="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(291166867, 611193045) index="3" unique_id=432157498 instance=ExtResource("24_s17dp")]
+layout_mode = 2
+button_texture = ExtResource("18_m4h2d")
+button_hovered_texture = ExtResource("20_s17dp")
+button_pressed_texture = ExtResource("19_p8abn")
+text = "Pikemen"
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(291166867, 611193045) index="4" unique_id=2030296468]
+layout_mode = 2
+theme_override_constants/separation = -4
+theme_override_styles/separator = SubResource("StyleBoxLine_ii537")
+
+[node name="Label" type="Label" parent="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(291166867, 611193045) index="5" unique_id=585807162]
+layout_mode = 2
+theme = ExtResource("28_i7in8")
+theme_override_font_sizes/font_size = 4
+text = "More coming soon"
+
+[node name="InfoPanel" parent="CanvasLayer" unique_id=1898688431 node_paths=PackedStringArray("panel_button") instance=ExtResource("23_p8abn")]
+visible = false
+panel_button = NodePath("../StructureButtons/InfoButton")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/InfoPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1898688431, 611193045) index="0" unique_id=335536041]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="structure_name" type="Label" parent="CanvasLayer/InfoPanel/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=387385557]
+layout_mode = 2
+theme = ExtResource("28_i7in8")
+theme_override_font_sizes/font_size = 6
+script = ExtResource("28_62atk")
+
+[node name="title" parent="CanvasLayer/InfoPanel/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=368992905 instance=ExtResource("23_s17dp")]
+layout_mode = 2
+text = "Info"
+
+[node name="ChangeName" parent="CanvasLayer/InfoPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1898688431, 611193045) index="1" unique_id=350695453 instance=ExtResource("24_s17dp")]
+layout_mode = 2
+button_texture = ExtResource("30_ii537")
+button_hovered_texture = ExtResource("31_rofvo")
+button_pressed_texture = ExtResource("32_tbnf8")
+text = "Change Name"
+
+[node name="ArmyButtons" type="HBoxContainer" parent="CanvasLayer" unique_id=959253319]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="InfoButton" type="TextureButton" parent="CanvasLayer/ArmyButtons" unique_id=2018965336]
+layout_mode = 2
+texture_normal = ExtResource("15_raeie")
+texture_pressed = ExtResource("16_nvumn")
+texture_hover = ExtResource("23_37hlw")
+stretch_mode = 1
+
+[node name="ArmyPanels" type="Control" parent="CanvasLayer" unique_id=697545491]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ArmyInfoPanel" parent="CanvasLayer/ArmyPanels" unique_id=1765384910 instance=ExtResource("23_p8abn")]
+visible = false
+layout_mode = 1
+
+[node name="title" parent="CanvasLayer/ArmyPanels/ArmyInfoPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1765384910, 611193045) index="0" unique_id=941834273 instance=ExtResource("23_s17dp")]
+layout_mode = 2
+text = "Army Info"
+
+[node name="ArmyInfo" parent="CanvasLayer/ArmyPanels/ArmyInfoPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1765384910, 611193045) index="1" unique_id=1965087047 node_paths=PackedStringArray("panel") instance=ExtResource("33_tbnf8")]
+layout_mode = 2
+panel = NodePath("../../../..")
+
+[node name="FollowCursor" type="Sprite2D" parent="." unique_id=2099658750]
+visible = false
+z_index = 100
+texture = ExtResource("18_m4h2d")
+script = ExtResource("33_rofvo")
 
 [connection signal="color_picked" from="CanvasLayer/PickColor/MarginContainer/PickColor" to="." method="_on_pick_color_color_picked"]
 [connection signal="pressed" from="CanvasLayer/StructureButtons/BuildButton" to="." method="_on_build_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/StructureButtons/InfoButton" to="." method="_on_info_button_pressed"]
-[connection signal="edit_structure_title" from="CanvasLayer/StructureInfo" to="." method="_on_structure_info_edit_structure_title"]
-[connection signal="exit" from="CanvasLayer/StructureInfo" to="." method="_on_structure_info_exit"]
 [connection signal="name_submitted" from="CanvasLayer/EnterStructureName" to="." method="_on_enter_structure_name_name_submitted"]
-[connection signal="structure_upgade_pressed" from="CanvasLayer/BuildPanel" to="." method="_structure_upgade_pressed"]
+[connection signal="enter" from="CanvasLayer/BuildPanel" to="." method="_on_panel_enter"]
+[connection signal="exit" from="CanvasLayer/BuildPanel" to="." method="_on_panel_exit"]
+[connection signal="button_pressed" from="CanvasLayer/BuildPanel/MarginContainer/PanelContainer/VBoxContainer/upgrade_button" to="." method="_structure_upgade_pressed"]
+[connection signal="button_pressed" from="CanvasLayer/BuildPanel/MarginContainer/PanelContainer/VBoxContainer/upgrade_button" to="CanvasLayer/BuildPanel" method="close"]
+[connection signal="enter" from="CanvasLayer/TrainPanel" to="." method="_on_panel_enter"]
+[connection signal="exit" from="CanvasLayer/TrainPanel" to="." method="_on_panel_exit"]
+[connection signal="button_pressed" from="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer/Swordsmen" to="CanvasLayer/TrainPanel" method="close"]
+[connection signal="button_pressed" from="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer/Swordsmen" to="." method="_on_train_troop_button_pressed" binds= [0]]
+[connection signal="button_pressed" from="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer/Archers" to="CanvasLayer/TrainPanel" method="close"]
+[connection signal="button_pressed" from="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer/Archers" to="." method="_on_train_troop_button_pressed" binds= [1]]
+[connection signal="button_pressed" from="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer/Pikemen" to="CanvasLayer/TrainPanel" method="close"]
+[connection signal="button_pressed" from="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer/Pikemen" to="." method="_on_train_troop_button_pressed" binds= [2]]
+[connection signal="enter" from="CanvasLayer/InfoPanel" to="." method="_on_panel_enter"]
+[connection signal="enter" from="CanvasLayer/InfoPanel" to="CanvasLayer/InfoPanel/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/structure_name" method="_on_info_panel_enter"]
+[connection signal="exit" from="CanvasLayer/InfoPanel" to="." method="_on_panel_exit"]
+[connection signal="button_pressed" from="CanvasLayer/InfoPanel/MarginContainer/PanelContainer/VBoxContainer/ChangeName" to="." method="_on_change_name_button_pressed"]
+[connection signal="button_pressed" from="CanvasLayer/InfoPanel/MarginContainer/PanelContainer/VBoxContainer/ChangeName" to="CanvasLayer/InfoPanel" method="close"]
+[connection signal="pressed" from="CanvasLayer/ArmyButtons/InfoButton" to="CanvasLayer/ArmyPanels/ArmyInfoPanel" method="_on_panel_button_pressed"]
+
+[editable path="CanvasLayer/BuildPanel"]
+[editable path="CanvasLayer/TrainPanel"]
+[editable path="CanvasLayer/InfoPanel"]
+[editable path="CanvasLayer/ArmyPanels/ArmyInfoPanel"]

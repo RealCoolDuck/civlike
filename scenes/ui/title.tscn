@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://db647sgu2mpaa"]
+
+[ext_resource type="Theme" uid="uid://b5nqnkdabevlt" path="res://themes/pick_colour.tres" id="1_t6us6"]
+
+[node name="title" type="Label" unique_id=1377510234]
+theme = ExtResource("1_t6us6")
+theme_override_font_sizes/font_size = 6
+horizontal_alignment = 1

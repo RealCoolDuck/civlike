@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://gannlbojvxrg"]
+
+[ext_resource type="Script" uid="uid://bjb4tmrv1gcjv" path="res://scenes/ui/icon_label.gd" id="1_e6tc8"]
+[ext_resource type="Theme" uid="uid://b5nqnkdabevlt" path="res://themes/pick_colour.tres" id="1_ww68i"]
+
+[node name="IconLabel" type="HBoxContainer" unique_id=1320217021]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ww68i")
+script = ExtResource("1_e6tc8")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=211243148]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="." unique_id=1958956524]
+layout_mode = 2
+theme_override_font_sizes/font_size = 4

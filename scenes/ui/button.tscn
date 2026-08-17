@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bj3pcpku2emf6"]
+
+[ext_resource type="Script" uid="uid://d4h34cvcgm7c8" path="res://scenes/ui/button.gd" id="1_di1ux"]
+
+[node name="Button" type="TextureRect" unique_id=1837361506]
+custom_minimum_size = Vector2(4, 4)
+offset_right = 1.0
+offset_bottom = 1.0
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("1_di1ux")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

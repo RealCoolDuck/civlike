@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MovableDefinition" format=3 uid="uid://dxp3x4xl211iw"]
+
+[ext_resource type="Script" uid="uid://sgswkjigeypr" path="res://resources/movables/movable_definition.gd" id="1_lxioa"]
+[ext_resource type="Texture2D" uid="uid://guc4q23h1b3o" path="res://assets/sprites/boat.png" id="2_rm28v"]
+
+[resource]
+script = ExtResource("1_lxioa")
+range = 1
+swims = true
+texture = ExtResource("2_rm28v")
+metadata/_custom_type_script = "uid://sgswkjigeypr"

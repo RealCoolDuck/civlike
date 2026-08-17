@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://ys17clyxklv0"]
+
+[ext_resource type="Texture2D" uid="uid://fovyugaq1pqx" path="res://assets/sprites/panel_background.png" id="1_xa8yj"]
+[ext_resource type="Script" uid="uid://bkqog8s0eoie" path="res://scenes/ui/panel/panel.gd" id="1_yxitv"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yxitv"]
+texture = ExtResource("1_xa8yj")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+modulate_color = Color(0.21410304, 0.21410304, 0.21410301, 1)
+
+[node name="Panel" type="Control" unique_id=1219030131]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_yxitv")
+
+[node name="bg" type="ColorRect" parent="." unique_id=1974523981]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.78431374)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=547450309]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=131677136]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_yxitv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer" unique_id=611193045]
+layout_mode = 2
+
+[connection signal="gui_input" from="bg" to="." method="_on_bg_gui_input"]

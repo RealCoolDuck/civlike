@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dnwua1dkos0t3"]
+
+[ext_resource type="Script" uid="uid://bkv44ratcwwyf" path="res://scenes/ui/army_info.gd" id="1_devwn"]
+
+[node name="ArmyInfo" type="VBoxContainer" unique_id=1965087047]
+script = ExtResource("1_devwn")

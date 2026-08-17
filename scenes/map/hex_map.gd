@@ -56,7 +56,7 @@ func _process(_delta: float):
 		hover_cell(mouse_coords)
 		tile_hovered = true
 
-func add_movable(definition: MovableDefinition, coords: Vector2i):
+func add_movable(definition: MovableDefinition, coords: Vector2i) -> Movable:
 	if coords in occupants:
 		push_warning("Tiles should not contain multiple occupants!")
 	var movable = Movable.new(self, definition)
@@ -70,6 +70,29 @@ func add_movable(definition: MovableDefinition, coords: Vector2i):
 		hide_hover_tile()
 	
 	movable.global_position = tile_to_world(coords)
+	return movable
+
+func highlight_cells(coords: Array[Vector2i]):
+	for coord in coords:
+		highlight_cell(coord)
+
+func add_unit(type: Enums.UnitType, coords: Vector2i):
+	var movable: Movable = null
+	if coords in occupants:
+		for occupant in occupants[coords]:
+			if occupant is Movable:
+				movable = occupant
+				break
+	if not movable:
+		movable = add_movable(movables_definitions[0], coords)
+	
+	if type in movable.units:
+		movable.units[type] += 1
+	else:
+		movable.units[type] = 1
+		
+	GameState.selected_movable = movable
+	
 
 func add_structure(definition: StructureDefinition, coords: Vector2i, hide_hover_tile: bool = false) -> Structure:
 	if coords in occupants:
@@ -147,7 +170,13 @@ func set_cell(coords: Vector2i, atlas_coords := get_tile(coords).atlas_coords):
 	tile_map_layer.set_cell(coords, TILE_ATLAS_SOURCE_ID, atlas_coords)
 
 func get_tile(coords: Vector2i) -> HexTileDefinition:
-	return tiles[1] if height_noise.get_noise_2d(coords.x, coords.y) < ocean_level else tiles[0]
+	var height = height_noise.get_noise_2d(coords.x, coords.y)
+	if height < ocean_level:
+		return tiles[1]
+	elif height < ocean_level + 0.3:
+		return tiles[0]
+	else:
+		return tiles[2]
 
 func highlight_cell(coords: Vector2i):
 	if coords in highlighted_cells:
@@ -205,6 +234,10 @@ func on_select_pressed():
 				occupants[coords] = []
 			occupants[coords].append(movable)
 			movable.move_to(coords)
+			if movable.movable_definition.walks and get_tile(coords).swimmable:
+				movable.movable_definition = movables_definitions[1]
+			elif movable.movable_definition.swims and get_tile(coords).walkable:
+				movable.movable_definition = movables_definitions[0]
 			movable.end_move.connect(_on_blocking_action_end)
 		selected_movable = null
 	elif coords in occupants:
@@ -222,7 +255,7 @@ func on_select_pressed():
 
 func select_movable(movable: Movable, coords: Vector2i):
 	selected_movable = movable
-	var walkable_tiles = movable.get_walkable_tiles()
+	var walkable_tiles = movable.get_movable_tiles()
 	for tile in walkable_tiles:
 		if tile == coords:
 			continue

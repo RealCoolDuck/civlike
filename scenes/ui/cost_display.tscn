@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://cibep7ahl0d18"]
+
+[node name="CostDisplay" type="HBoxContainer" unique_id=511041672]

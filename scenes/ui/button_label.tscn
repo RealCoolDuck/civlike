@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dlipuu7djidim"]
+
+[ext_resource type="Script" uid="uid://b56yg5jrpdnff" path="res://scenes/ui/button_label.gd" id="1_4cg5o"]
+[ext_resource type="Theme" uid="uid://b5nqnkdabevlt" path="res://themes/pick_colour.tres" id="1_imia1"]
+[ext_resource type="PackedScene" uid="uid://bj3pcpku2emf6" path="res://scenes/ui/button.tscn" id="3_k1i4i"]
+
+[node name="ButtonLabel" type="HBoxContainer" unique_id=111820653]
+offset_right = 1.0
+offset_bottom = 23.0
+theme = ExtResource("1_imia1")
+script = ExtResource("1_4cg5o")
+
+[node name="Label" type="Label" parent="." unique_id=106165394]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 4
+
+[node name="Button" parent="." unique_id=1837361506 instance=ExtResource("3_k1i4i")]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 2
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

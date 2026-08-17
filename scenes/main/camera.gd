@@ -15,6 +15,8 @@ var block_input: bool = false
 
 var last_mouse_position := Vector2.ZERO
 
+var move_direction: Vector2 = Vector2.ZERO
+
 func _unhandled_input(event: InputEvent) -> void:
 	if block_input:
 		return
@@ -33,13 +35,30 @@ func _unhandled_input(event: InputEvent) -> void:
 		zoom_out = true
 	elif event.is_action_released("zoom_out"):
 		zoom_out = false
+	
+	if event.is_action_pressed("up"):
+		move_direction.y = -1
+	if event.is_action_pressed("down"):
+		move_direction.y = 1
+	if event.is_action_pressed("left"):
+		move_direction.x = -1
+	if event.is_action_pressed("right"):
+		move_direction.x = 1
+	
+	if event.is_action_released("up"):
+		move_direction.y = 0
+	if event.is_action_released("down"):
+		move_direction.y = 0
+	if event.is_action_released("left"):
+		move_direction.x = 0
+	if event.is_action_released("right"):
+		move_direction.x = 0
 
 	# Move camera while dragging
 	if event is InputEventMouseMotion and dragging:
 		var mouse_delta = event.position - last_mouse_position
 		position -= mouse_delta * pan_speed / zoom.x
 		position = Vector2(clamp(position.x,limit_left+get_viewport_rect().size.x/2,limit_right-get_viewport_rect().size.x/2),clamp(position.y,limit_top+get_viewport_rect().size.y/2,limit_bottom-get_viewport_rect().size.y/2))
-		print(position)
 		last_mouse_position = event.position
 	
 	if event is InputEventPanGesture:
@@ -50,6 +69,8 @@ func _process(delta: float) -> void:
 		zoom_camera(zoom_speed * delta)
 	if zoom_out:
 		zoom_camera(-zoom_speed * delta)
+	
+	position += move_direction * pan_speed / zoom.x
 		
 func zoom_camera(amount: float):
 	var new_zoom := zoom + Vector2(amount, amount)

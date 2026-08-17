@@ -6,12 +6,12 @@ extends Node2D
 @onready var pick_color_view = $CanvasLayer/PickColor
 
 @onready var info_label = $CanvasLayer/InfoLabel
+@onready var follow_cursor = $FollowCursor
 
 @onready var structure_buttons = $CanvasLayer/StructureButtons
+@onready var army_buttons = $CanvasLayer/ArmyButtons
 
 @onready var fog: ColorRect = $Fog
-@onready var structure_info: StructureInfo = $CanvasLayer/StructureInfo
-@onready var build_panel: Control = $CanvasLayer/BuildPanel
 
 @onready var enter_structure_name = $CanvasLayer/EnterStructureName
 
@@ -21,9 +21,12 @@ extends Node2D
 var spawn_border: Border = Border.new()
 var spawn_structure: Structure
 
-var selected_structure: Structure = null
-
 var rng = RandomNumberGenerator.new()
+
+var unit_selected: Enums.UnitType
+
+var valid_troop_positions: Array[Vector2i] = []
+
 signal colour_selected
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -75,8 +78,6 @@ func prepare_camera():
 	fog.size.x = width * 2
 	fog.size.y = height * 2
 	fog.global_position = Vector2(-width+13, -height+13)
-	
-	
 
 func pick_spawn():
 	info_label.visible = true
@@ -102,7 +103,7 @@ func _on_hex_spawn_selected(coords: Vector2i):
 	hex_borders.clear_borders()
 	map.hex_selected.disconnect(_on_hex_spawn_selected)
 	
-	selected_structure = spawn_structure
+	GameState.selected_structure = spawn_structure
 	enter_structure_name.visible = true
 	map.block = true
 	
@@ -111,17 +112,24 @@ func _on_hex_spawn_selected(coords: Vector2i):
 	structure_buttons.visible = true
 
 func _on_hex_selected(coords: Vector2i):
-	var set_info_visible: bool = false
+	var set_structure_info_visible: bool = false
+	var set_army_info_visible: bool = false
+	
 	if coords in map.occupants:
 		for occupant in map.occupants[coords]:
 			if occupant is Structure:
 				structure_buttons.visible = true
-				set_info_visible = true
-				selected_structure = occupant
-				return
+				set_structure_info_visible = true
+				GameState.selected_structure = occupant
+			elif occupant is Movable:
+				army_buttons.visible = true
+				set_army_info_visible = true
+				GameState.selected_movable = occupant
 	
-	if not set_info_visible:
+	if not set_structure_info_visible:
 		structure_buttons.visible = false
+	if not set_army_info_visible:
+		army_buttons.visible = false
 
 func _on_pick_color_color_picked(color: Color) -> void:
 	GameState.players[0].color = color
@@ -129,28 +137,43 @@ func _on_pick_color_color_picked(color: Color) -> void:
 	map.block = false
 	colour_selected.emit()
 
-func _on_info_button_pressed() -> void:
-	if selected_structure:
-		structure_info.visible = true
-		structure_info.set_structure(selected_structure)
-		map.block = true
-
-func _on_structure_info_exit() -> void:
-	map.block = false
-
 func _on_enter_structure_name_name_submitted(name: String) -> void:
 	map.block = false
-	selected_structure.structure_name = name
-	structure_info.set_structure(selected_structure)
+	GameState.selected_structure.structure_name = name
 
-func _on_structure_info_edit_structure_title(structure: Structure) -> void:
-	enter_structure_name.visible = true
+func _on_panel_enter():
 	map.block = true
+	camera.block_input = true
 
-func _on_build_button_pressed() -> void:
-	if selected_structure:
-		build_panel.visible = true
-
+func _on_panel_exit():
+	map.block = false
+	camera.block_input = false
 
 func _structure_upgade_pressed() -> void:
-	selected_structure.upgrade_structure()
+	GameState.selected_structure.upgrade_structure()
+
+func _on_change_name_button_pressed() -> void:
+	enter_structure_name.visible = true
+
+func _on_place_troop(coords: Vector2i):
+	if not coords in valid_troop_positions:
+		map.highlight_cells(valid_troop_positions)
+		return
+	follow_cursor.visible = false
+	map.add_unit(unit_selected, coords)
+	map.hex_selected.disconnect(_on_place_troop)
+	army_buttons.visible = true
+
+func _on_train_troop_button_pressed(unit_type: Enums.UnitType) -> void:
+	unit_selected = unit_type
+	map.clear_highlights()
+	hex_borders.clear_borders()
+	GameState.selected_structure.deselect()
+	var coords := GameState.selected_structure.map_position
+	valid_troop_positions = [coords]
+	for dir in map.DIRECTIONS:
+		if map.get_tile(coords + dir).walkable:
+			valid_troop_positions.append(coords + dir)
+	map.highlight_cells(valid_troop_positions)
+	follow_cursor.visible = true
+	map.hex_selected.connect(_on_place_troop)
