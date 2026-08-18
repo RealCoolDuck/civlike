@@ -9,7 +9,7 @@ signal button_pressed
 @export var text: String
 
 @onready var label: Label = $Label
-@onready var button: CustomButton = $Button
+@onready var button: CustomButton = $MarginContainer/Button
 
 func _ready() -> void:
 	label.text = text

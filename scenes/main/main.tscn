@@ -9,15 +9,18 @@
 [ext_resource type="Resource" uid="uid://d06b5laipv20e" path="res://resources/movables/troops.tres" id="4_6q06x"]
 [ext_resource type="PackedScene" uid="uid://rh04hfxs04hl" path="res://scenes/map/hex_borders/hex_borders.tscn" id="4_yyfjg"]
 [ext_resource type="Script" uid="uid://drhr64g7tn2p" path="res://resources/tiles/hex_tile_definition.gd" id="7_62f45"]
-[ext_resource type="Resource" uid="uid://cvw5c4igrmey7" path="res://resources/tiles/RedTile.tres" id="8_6g32y"]
-[ext_resource type="Resource" uid="uid://7c5gq7schl8w" path="res://resources/tiles/BlueTile.tres" id="9_5nwjq"]
-[ext_resource type="Shader" uid="uid://bbs5kj6uo6k6g" path="res://scenes/main/fog.gdshader" id="9_7smn1"]
+[ext_resource type="Resource" uid="uid://cvw5c4igrmey7" path="res://resources/tiles/GrassTile.tres" id="8_6g32y"]
+[ext_resource type="Resource" uid="uid://7c5gq7schl8w" path="res://resources/tiles/WaterTile.tres" id="9_5nwjq"]
 [ext_resource type="Resource" uid="uid://dxp3x4xl211iw" path="res://resources/movables/boat.tres" id="9_r1bmu"]
 [ext_resource type="Resource" uid="uid://eetlr6v2nl3a" path="res://resources/tiles/SnowTile.tres" id="10_g2upo"]
 [ext_resource type="PackedScene" uid="uid://bcyy28vg407lq" path="res://scenes/ui/pick_colour/pick_color.tscn" id="12_blune"]
 [ext_resource type="FontFile" uid="uid://bguriayplp5qj" path="res://assets/fonts/ithaca-font/Ithaca-LVB75.ttf" id="13_th5th"]
+[ext_resource type="PackedScene" uid="uid://bj3pcpku2emf6" path="res://scenes/ui/button.tscn" id="14_38d3o"]
+[ext_resource type="Texture2D" uid="uid://d0sjbqoutk0jb" path="res://assets/sprites/hex_borders.png" id="15_i6fjx"]
 [ext_resource type="Texture2D" uid="uid://bunwwgrx3wgee" path="res://assets/sprites/info_icon.png" id="15_raeie"]
+[ext_resource type="Texture2D" uid="uid://crqpri1mb1ccy" path="res://assets/sprites/hex_borders_hovered.png" id="16_7dg2i"]
 [ext_resource type="Texture2D" uid="uid://cqkc1yqqkaers" path="res://assets/sprites/info_icon_pressed.png" id="16_nvumn"]
+[ext_resource type="Texture2D" uid="uid://d3j8mjtibxd1l" path="res://assets/sprites/hex_borders_pressed.png" id="17_08tbl"]
 [ext_resource type="Texture2D" uid="uid://ba2ohb1u7j1e7" path="res://assets/sprites/train_army.png" id="18_m4h2d"]
 [ext_resource type="PackedScene" uid="uid://cicdywlp6p4py" path="res://scenes/ui/enter_structure_name/enter_structure_name.tscn" id="19_necax"]
 [ext_resource type="Texture2D" uid="uid://dxiuvhbmhtojn" path="res://assets/sprites/train_army_pressed.png" id="19_p8abn"]
@@ -41,10 +44,6 @@
 [ext_resource type="PackedScene" uid="uid://dnwua1dkos0t3" path="res://scenes/ui/army_info.tscn" id="33_tbnf8"]
 [ext_resource type="Script" uid="uid://cbvsw4aaf2ku" path="res://scenes/ui/enter_structure_name/town_name_generator.gd" id="40_6g32y"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_th5th"]
-shader = ExtResource("9_7smn1")
-shader_parameter/fog_speed = 0.1
-
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_ii537"]
 color = Color(0.78352344, 0.7835234, 0.7835234, 1)
 
@@ -53,6 +52,7 @@ script = ExtResource("1_6q06x")
 structure_definitions = Array[ExtResource("2_hujxm")]([ExtResource("3_yyfjg")])
 
 [node name="HexBorders" parent="." unique_id=857492293 node_paths=PackedStringArray("map") instance=ExtResource("4_yyfjg")]
+scale = Vector2(8, 8)
 map = NodePath("../HexMap")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=159356535 node_paths=PackedStringArray("map")]
@@ -61,27 +61,26 @@ max_zoom = 2.0
 map = NodePath("../HexMap")
 
 [node name="HexMap" parent="." unique_id=869536201 node_paths=PackedStringArray("hex_borders") instance=ExtResource("2_iuonh")]
+scale = Vector2(8, 8)
 tiles = Array[ExtResource("7_62f45")]([ExtResource("8_6g32y"), ExtResource("9_5nwjq"), ExtResource("10_g2upo")])
 movables_definitions = Array[ExtResource("3_l3cfh")]([ExtResource("4_6q06x"), ExtResource("9_r1bmu")])
 hex_borders = NodePath("../HexBorders")
 
-[node name="Fog" type="ColorRect" parent="." unique_id=1630155946]
-material = SubResource("ShaderMaterial_th5th")
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(50, 50)
-mouse_filter = 2
-
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=933161837]
+
+[node name="BorderOverlayButton" parent="CanvasLayer" unique_id=1837361506 instance=ExtResource("14_38d3o")]
+custom_minimum_size = Vector2(60, 60)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_right = 0.0
+offset_bottom = 60.0
+grow_horizontal = 0
+texture = ExtResource("15_i6fjx")
+button_normal = ExtResource("15_i6fjx")
+button_hovered = ExtResource("16_7dg2i")
+button_pressed = ExtResource("17_08tbl")
 
 [node name="PickColor" type="Control" parent="CanvasLayer" unique_id=1838582913]
 visible = false
@@ -138,23 +137,28 @@ grow_vertical = 0
 alignment = 2
 
 [node name="BuildButton" type="TextureButton" parent="CanvasLayer/StructureButtons" unique_id=898051511]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("21_37hlw")
 texture_pressed = ExtResource("22_6llfj")
 texture_hover = ExtResource("23_0bhws")
+stretch_mode = 5
 
 [node name="TrainButton" type="TextureButton" parent="CanvasLayer/StructureButtons" unique_id=1105743456]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("18_m4h2d")
 texture_pressed = ExtResource("19_p8abn")
 texture_hover = ExtResource("20_s17dp")
+stretch_mode = 5
 
 [node name="InfoButton" type="TextureButton" parent="CanvasLayer/StructureButtons" unique_id=137750881]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("15_raeie")
 texture_pressed = ExtResource("16_nvumn")
 texture_hover = ExtResource("23_37hlw")
-stretch_mode = 1
+stretch_mode = 5
 
 [node name="EnterStructureName" parent="CanvasLayer" unique_id=1178826391 instance=ExtResource("19_necax")]
 visible = false
@@ -182,7 +186,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_ii537")
 [node name="Label" type="Label" parent="CanvasLayer/BuildPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1219030131, 611193045) index="3" unique_id=1359596839]
 layout_mode = 2
 theme = ExtResource("28_i7in8")
-theme_override_font_sizes/font_size = 4
+theme_override_font_sizes/font_size = 32
 text = "More coming soon"
 
 [node name="TrainPanel" parent="CanvasLayer" unique_id=291166867 node_paths=PackedStringArray("panel_button") instance=ExtResource("23_p8abn")]
@@ -222,7 +226,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_ii537")
 [node name="Label" type="Label" parent="CanvasLayer/TrainPanel/MarginContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(291166867, 611193045) index="5" unique_id=585807162]
 layout_mode = 2
 theme = ExtResource("28_i7in8")
-theme_override_font_sizes/font_size = 4
+theme_override_font_sizes/font_size = 32
 text = "More coming soon"
 
 [node name="InfoPanel" parent="CanvasLayer" unique_id=1898688431 node_paths=PackedStringArray("panel_button") instance=ExtResource("23_p8abn")]
@@ -237,7 +241,7 @@ alignment = 1
 [node name="structure_name" type="Label" parent="CanvasLayer/InfoPanel/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=387385557]
 layout_mode = 2
 theme = ExtResource("28_i7in8")
-theme_override_font_sizes/font_size = 6
+theme_override_font_sizes/font_size = 32
 script = ExtResource("28_62atk")
 
 [node name="title" parent="CanvasLayer/InfoPanel/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=368992905 instance=ExtResource("23_s17dp")]
@@ -262,11 +266,12 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="InfoButton" type="TextureButton" parent="CanvasLayer/ArmyButtons" unique_id=2018965336]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("15_raeie")
 texture_pressed = ExtResource("16_nvumn")
 texture_hover = ExtResource("23_37hlw")
-stretch_mode = 1
+stretch_mode = 5
 
 [node name="ArmyPanels" type="Control" parent="CanvasLayer" unique_id=697545491]
 layout_mode = 3
@@ -292,6 +297,7 @@ panel = NodePath("../../../..")
 [node name="FollowCursor" type="Sprite2D" parent="." unique_id=2099658750]
 visible = false
 z_index = 100
+scale = Vector2(4, 4)
 texture = ExtResource("18_m4h2d")
 script = ExtResource("33_rofvo")
 
@@ -299,6 +305,7 @@ script = ExtResource("33_rofvo")
 script = ExtResource("40_6g32y")
 metadata/_custom_type_script = "uid://cbvsw4aaf2ku"
 
+[connection signal="pressed" from="CanvasLayer/BorderOverlayButton" to="." method="_on_border_overlay_button_pressed"]
 [connection signal="color_picked" from="CanvasLayer/PickColor/MarginContainer/PickColor" to="." method="_on_pick_color_color_picked"]
 [connection signal="pressed" from="CanvasLayer/StructureButtons/BuildButton" to="." method="_on_build_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/StructureButtons/InfoButton" to="." method="_on_info_button_pressed"]

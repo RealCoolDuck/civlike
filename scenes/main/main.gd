@@ -28,6 +28,8 @@ var rng = RandomNumberGenerator.new()
 var unit_selected: Enums.UnitType
 
 var valid_troop_positions: Array[Vector2i] = []
+var overlay_visbile := false
+
 
 signal colour_selected
 signal spawn_picked
@@ -65,7 +67,7 @@ func start_game():
 	
 	for _i in range(5):
 		var structure := map.add_structure(structure_definitions[0], get_random_spawn(5, 25))
-		structure.border.color = GameState.players[BOT].color
+		structure.color = GameState.players[BOT].color
 		structure.structure_name = name_generator.generate_name(5, 10)
 		GameState.players[BOT].owned_structures.append(structure)
 
@@ -99,20 +101,9 @@ func add_ring(border: Border, radius: int):
 
 func prepare_camera():
 	camera.global_position = map.tile_to_world(Vector2i.ZERO)
-	camera.zoom = Vector2i.ONE * 2.4
+	camera.zoom = Vector2i.ONE * 0.35
 	
 	camera.block_input = true
-	var width: int = int(26* rings)
-	var height: int = int((26 * (3 * rings + 2))/4)
-	
-	camera.limit_left = -width + 12
-	camera.limit_right = width + 12
-	camera.limit_top = -height + 6
-	camera.limit_bottom = height - 7
-	
-	fog.size.x = width * 2
-	fog.size.y = height * 2
-	fog.global_position = Vector2(-width+13, -height+13)
 
 func pick_spawn():
 	info_label.visible = true
@@ -130,10 +121,10 @@ func pick_spawn():
 
 func _on_hex_spawn_selected(coords: Vector2i):
 	if not coords in spawn_border.contents or not map.get_tile(coords).walkable:
-		hex_borders.draw_all_player_borders()
+		hex_borders.draw_border(spawn_border)
 		return
 	spawn_structure = map.add_structure(structure_definitions[0], coords, true)
-	spawn_structure.border.color = GameState.players[0].color
+	spawn_structure.color = GameState.players[0].color
 	camera.block_input = false
 	hex_borders.clear_borders()
 	map.hex_selected.disconnect(_on_hex_spawn_selected)
@@ -146,6 +137,8 @@ func _on_hex_spawn_selected(coords: Vector2i):
 	map.hex_selected.connect(_on_hex_selected)
 	info_label.visible = false
 	structure_buttons.visible = true
+	
+	spawn_structure.select()
 	
 	spawn_picked.emit()
 
@@ -215,3 +208,12 @@ func _on_train_troop_button_pressed(unit_type: Enums.UnitType) -> void:
 	map.highlight_cells(valid_troop_positions)
 	follow_cursor.visible = true
 	map.hex_selected.connect(_on_place_troop)
+
+
+func _on_border_overlay_button_pressed() -> void:
+	if overlay_visbile:
+		map.hide_border_overlay()
+	else:
+		map.show_border_overlay()
+	
+	overlay_visbile = not overlay_visbile

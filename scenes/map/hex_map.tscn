@@ -3,16 +3,20 @@
 [ext_resource type="Script" uid="uid://i2iudy3n840f" path="res://scenes/map/hex_map.gd" id="1_tmd4b"]
 [ext_resource type="Script" uid="uid://drhr64g7tn2p" path="res://resources/tiles/hex_tile_definition.gd" id="2_51d80"]
 [ext_resource type="TileSet" uid="uid://trry3a3xfbpw" path="res://resources/tile_sets/hex_tiles.tres" id="2_eqyvv"]
-[ext_resource type="Resource" uid="uid://cvw5c4igrmey7" path="res://resources/tiles/RedTile.tres" id="3_mbwj7"]
-[ext_resource type="Resource" uid="uid://7c5gq7schl8w" path="res://resources/tiles/BlueTile.tres" id="4_7i2la"]
+[ext_resource type="Resource" uid="uid://cvw5c4igrmey7" path="res://resources/tiles/GrassTile.tres" id="3_mbwj7"]
+[ext_resource type="Resource" uid="uid://7c5gq7schl8w" path="res://resources/tiles/WaterTile.tres" id="4_7i2la"]
 [ext_resource type="PackedScene" uid="uid://cwtv6tugm1q3f" path="res://scenes/map/hover_tile/hover_tile.tscn" id="6_ropgo"]
+[ext_resource type="Shader" uid="uid://xqx0kxg7gtpm" path="res://scenes/map/border.gdshader" id="7_pyay8"]
+[ext_resource type="Script" uid="uid://cldy5bwvkh0kk" path="res://scenes/map/borders_tilemap_layer.gd" id="8_e2nwu"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ropgo"]
 frequency = 0.05
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ropgo"]
+shader = ExtResource("7_pyay8")
+
 [node name="HexMap" type="Node2D" unique_id=869536201]
 y_sort_enabled = true
-scale = Vector2(4, 4)
 script = ExtResource("1_tmd4b")
 height_noise = SubResource("FastNoiseLite_ropgo")
 tiles = Array[ExtResource("2_51d80")]([ExtResource("3_mbwj7"), ExtResource("4_7i2la")])
@@ -28,6 +32,8 @@ bob_speed = 2.0
 [node name="BorderOverlay" type="CanvasLayer" parent="." unique_id=1076359443]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="BorderOverlay" unique_id=1391346114]
+visible = false
+material = SubResource("ShaderMaterial_ropgo")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,11 +47,13 @@ handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(1152, 648)
 size_2d_override_stretch = true
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="Borders" type="TileMapLayer" parent="BorderOverlay/SubViewportContainer/SubViewport" unique_id=1738697396]
 y_sort_enabled = true
+scale = Vector2(8, 8)
 tile_map_data = PackedByteArray("AAD//wAAAAAAAAEAAAAAAAAAAAAAAAEAAAD//wEAAAAAAAEAAAAAAP//AAAAAAEAAAD+/wEAAAAAAAEAAAD+/wAAAAAAAAEAAAD/////AAAAAAEAAAA=")
 tile_set = ExtResource("2_eqyvv")
+script = ExtResource("8_e2nwu")
 
 [node name="BorderCamera" type="Camera2D" parent="BorderOverlay/SubViewportContainer/SubViewport" unique_id=657340582]

@@ -4,6 +4,8 @@ extends Node2D
 @onready var tile_map_layer: TileMapLayer = $Terrain
 @onready var hover_tile: HoverTile = $HoverTile
 @onready var border_camera: Camera2D = $BorderOverlay/SubViewportContainer/SubViewport/BorderCamera
+@onready var border_overlays: BorderOverlay = $BorderOverlay/SubViewportContainer/SubViewport/Borders
+@onready var border_overlay_container: SubViewportContainer = $BorderOverlay/SubViewportContainer
 
 @export var height_noise: FastNoiseLite
 @export var tiles: Array[HexTileDefinition] = []
@@ -13,15 +15,19 @@ extends Node2D
 @export var hex_borders: HexBorders
 
 var rng = RandomNumberGenerator.new()
+var highlight_scene := preload("res://scenes/map/highlight/highlight.tscn")
+
 
 const TILE_ATLAS_SOURCE_ID := 0
 const EMPTY_ATLAS_COORDS := Vector2i(0, 0)
 const HEX_COORDS_INF = Vector2i(10000, 10000)
+const DARK_ATLAS_COORDS := Vector2i(1, 1)
+
 
 const HEX_WIDTH_PX: int = 26
 const HEX_HEIGHT_PX: int = 24
 
-var highlighted_cells: Array[Vector2i] = []
+var highlighted_cells: Dictionary[Vector2i, Occupant] = {}
 var occupants: Dictionary[Vector2i, Array] = {}
 
 var carried_occupants: Array[Occupant] = [] # for when a movable is on the hovered tile
@@ -56,6 +62,15 @@ func _process(_delta: float):
 			set_cell(hover_tile.hex_coords, hover_tile.atlas_coords)
 		hover_cell(mouse_coords)
 		tile_hovered = true
+
+func show_border_overlay():
+	border_overlay_container.visible = true
+
+func hide_border_overlay():
+	border_overlay_container.visible = false
+
+func set_border_overlay(coords: Vector2i, color: Color):
+	border_overlays.modulate_cell(coords, color)
 
 func add_movable(definition: MovableDefinition, coords: Vector2i) -> Movable:
 	if coords in occupants:
@@ -111,7 +126,7 @@ func add_structure(definition: StructureDefinition, coords: Vector2i, hide_hover
 	return structure
 
 func get_mouse_coords() -> Vector2i:
-	return tile_map_layer.local_to_map(get_global_mouse_position())
+	return tile_map_layer.local_to_map(get_global_mouse_position() / scale.x)
 
 func hover_cell(coords: Vector2i):
 	drop_carried_occupants()
@@ -157,6 +172,7 @@ func drop_carried_occupants():
 
 func create_hexagon_map(radius: int):
 	set_cell(Vector2i.ZERO)
+	border_overlays.set_cell(Vector2i.ZERO, TILE_ATLAS_SOURCE_ID, DARK_ATLAS_COORDS)
 	for i in range(1, radius + 1):
 		create_ring(i)
 
@@ -166,6 +182,7 @@ func create_ring(radius: int):
 		for _i in range(radius):
 			coords += DIRECTIONS[i]
 			set_cell(coords)
+			border_overlays.set_cell(coords, TILE_ATLAS_SOURCE_ID, DARK_ATLAS_COORDS)
 
 func set_cell(coords: Vector2i, atlas_coords := get_tile(coords).atlas_coords):
 	tile_map_layer.set_cell(coords, TILE_ATLAS_SOURCE_ID, atlas_coords)
@@ -182,30 +199,23 @@ func get_tile(coords: Vector2i) -> HexTileDefinition:
 func highlight_cell(coords: Vector2i):
 	if coords in highlighted_cells:
 		return
-	highlighted_cells.append(coords)
 	
-	var atlas_coords := tile_map_layer.get_cell_atlas_coords(coords)
-	
-	tile_map_layer.set_cell(
-		coords,
-		TILE_ATLAS_SOURCE_ID,
-		atlas_coords + Vector2i(0, 1))
+	var scene: Occupant = highlight_scene.instantiate()
+	highlighted_cells[coords] = scene
+	add_child(scene)
+	scene.map_position = coords
+	scene.global_position = tile_to_world(coords)
+	if not coords in occupants:
+		occupants[coords] = []
+	occupants[coords].append(scene)
 
 func clear_highlights():
 	for coords in highlighted_cells:
-		if hover_tile.hex_coords == coords:
-			var new_atlas_coords = hover_tile.atlas_coords + Vector2i(0, -1)
-			hover_tile.set_atlas_position(new_atlas_coords)
-			continue
-		
-		var atlas_coords := tile_map_layer.get_cell_atlas_coords(coords) + Vector2i(0, -1)
-		
-		tile_map_layer.set_cell(
-			coords,
-			TILE_ATLAS_SOURCE_ID,
-			atlas_coords)
+		var scene := highlighted_cells[coords]
+		remove_occupant(scene)
+		scene.queue_free()
 	
-	highlighted_cells = []
+	highlighted_cells = {}
 
 func tile_to_world(coords: Vector2i):
 	return tile_map_layer.to_global(

@@ -34,10 +34,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 42
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 42
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 250
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 250
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1838223564]
 layout_mode = 2
@@ -45,18 +45,20 @@ layout_mode = 2
 [node name="LineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer" unique_id=1820622023]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme = ExtResource("1_m53ga")
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 32
 placeholder_text = "Enter Village Name..."
 alignment = 1
 max_length = 18
 
 [node name="Random" type="TextureButton" parent="MarginContainer/HBoxContainer" unique_id=1253949287]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 texture_normal = ExtResource("3_il04x")
 texture_pressed = ExtResource("4_g8p20")
 texture_hover = ExtResource("5_5bkyp")
-stretch_mode = 3
+stretch_mode = 5
 
 [node name="RandomNameGenerator" type="Control" parent="." unique_id=245616946]
 anchors_preset = 0

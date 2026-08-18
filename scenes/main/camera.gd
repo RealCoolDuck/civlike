@@ -72,7 +72,7 @@ func _process(delta: float) -> void:
 	if zoom_out:
 		zoom_camera(-zoom_speed * delta)
 	
-	position += move_direction * pan_speed / zoom.x
+	position += move_direction * pan_speed * 15 / zoom.x
 	
 	map.update_border_camera(global_position, zoom)
 		

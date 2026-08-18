@@ -9,6 +9,12 @@ var label: StructureLabel
 
 var border: Border = Border.new()
 
+var color: Color = Color.WHITE:
+	set(new):
+		color = new
+		border.color = new
+		map.set_border_overlay(map_position, new)
+
 var structure_name: String = "":
 	set(value):
 		structure_name = value
@@ -36,14 +42,16 @@ func _init(game_map: HexMap, my_definition: StructureDefinition, coords):
 func _ready() -> void:
 	sprite_2d = Sprite2D.new()
 	label = label_scene.instantiate()
+	label.scale = Vector2(1.0 / map.scale.x, 1.0 / map.scale.y)
 	add_child(label)
 	add_child(sprite_2d)
 	sprite_2d.texture = definition.texture
-	label.position.y -= sprite_2d.get_rect().size.y / 2 + 6
+	label.position.y -= sprite_2d.get_rect().size.y / 2 + 2
 	border.add_hex(map_position)
 	money = definition.starting_money
 	population = definition.starting_population
 	border.color_updated.connect(_on_border_color_update)
+	label.visible = false
 
 func _on_border_color_update(color: Color):
 	label.set_structure_name_color(color)
@@ -92,6 +100,7 @@ func _on_upgrade_location_selected(coords: Vector2i):
 	upgrade_counter -= 1
 	
 	border.add_hex(coords)
+	map.set_border_overlay(coords, color)
 	
 	if upgrade_counter <= 0:
 		map.hex_selected.disconnect(_on_upgrade_location_selected)
