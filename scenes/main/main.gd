@@ -11,6 +11,8 @@ extends Node2D
 @onready var structure_buttons = $CanvasLayer/StructureButtons
 @onready var army_buttons = $CanvasLayer/ArmyButtons
 
+@onready var name_generator = $TownNameGenerator
+
 @onready var fog: ColorRect = $Fog
 
 @onready var enter_structure_name = $CanvasLayer/EnterStructureName
@@ -28,6 +30,13 @@ var unit_selected: Enums.UnitType
 var valid_troop_positions: Array[Vector2i] = []
 
 signal colour_selected
+signal spawn_picked
+
+enum
+{
+	PLAYER,
+	BOT
+}
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
@@ -41,18 +50,44 @@ func _ready():
 	start_game()
 
 func start_game():
+	GameState.players.append(PlayerData.new())
+	GameState.players.append(PlayerData.new())
+	
+	GameState.players[BOT].color = Color.TOMATO
+	
 	generate_map()
 	pick_colour()
 	prepare_camera()
 	await colour_selected
 	pick_spawn()
+	
+	await spawn_picked
+	
+	for _i in range(5):
+		var structure := map.add_structure(structure_definitions[0], get_random_spawn(5, 25))
+		structure.border.color = GameState.players[BOT].color
+		structure.structure_name = name_generator.generate_name(5, 10)
+		GameState.players[BOT].owned_structures.append(structure)
 
+func get_random_spawn(min_radius: int, max_radius: int):
+	while true:
+		var q = randi_range(-max_radius, max_radius)
+		var r = randi_range(-max_radius, max_radius)
+		var cell = Vector2i(q, r)
+
+		var distance = (abs(q) + abs(r) + abs(q + r)) / 2
+
+		if distance >= min_radius \
+		and distance <= max_radius \
+		and map.get_tile(cell).walkable \
+		and not cell in map.occupants:
+			return cell
+	
 func generate_map():
 	map.create_hexagon_map(rings)
 
 func pick_colour():
 	pick_color_view.visible = true
-	GameState.players.append(PlayerData.new())
 	map.block = true
 
 func add_ring(border: Border, radius: int):
@@ -64,7 +99,7 @@ func add_ring(border: Border, radius: int):
 
 func prepare_camera():
 	camera.global_position = map.tile_to_world(Vector2i.ZERO)
-	camera.zoom = Vector2i.ONE * 0.4
+	camera.zoom = Vector2i.ONE * 2.4
 	
 	camera.block_input = true
 	var width: int = int(26* rings)
@@ -95,7 +130,7 @@ func pick_spawn():
 
 func _on_hex_spawn_selected(coords: Vector2i):
 	if not coords in spawn_border.contents or not map.get_tile(coords).walkable:
-		hex_borders.draw_border(spawn_border)
+		hex_borders.draw_all_player_borders()
 		return
 	spawn_structure = map.add_structure(structure_definitions[0], coords, true)
 	spawn_structure.border.color = GameState.players[0].color
@@ -104,12 +139,15 @@ func _on_hex_spawn_selected(coords: Vector2i):
 	map.hex_selected.disconnect(_on_hex_spawn_selected)
 	
 	GameState.selected_structure = spawn_structure
+	GameState.players[PLAYER].owned_structures.append(spawn_structure)
 	enter_structure_name.visible = true
 	map.block = true
 	
 	map.hex_selected.connect(_on_hex_selected)
 	info_label.visible = false
 	structure_buttons.visible = true
+	
+	spawn_picked.emit()
 
 func _on_hex_selected(coords: Vector2i):
 	var set_structure_info_visible: bool = false
@@ -117,7 +155,7 @@ func _on_hex_selected(coords: Vector2i):
 	
 	if coords in map.occupants:
 		for occupant in map.occupants[coords]:
-			if occupant is Structure:
+			if occupant is Structure and occupant in GameState.players[PLAYER].owned_structures:
 				structure_buttons.visible = true
 				set_structure_info_visible = true
 				GameState.selected_structure = occupant

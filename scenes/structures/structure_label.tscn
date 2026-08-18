@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://4mp6ikmvxntm" path="res://assets/sprites/person.png" id="5_s5ovw"]
 
 [node name="StructureLabel" type="Node2D" unique_id=297208867]
-visible = false
 z_index = 10
 script = ExtResource("1_ppd3u")
 
@@ -36,7 +35,7 @@ custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("3_5gpus")
-theme_override_font_sizes/font_size = 4
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 vertical_alignment = 1
 

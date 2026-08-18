@@ -39,6 +39,7 @@
 [ext_resource type="Texture2D" uid="uid://bahnqo06p1k71" path="res://assets/sprites/edit_button_pressed.png" id="32_tbnf8"]
 [ext_resource type="Script" uid="uid://b5ggjbph3o4q6" path="res://scenes/main/follow_cursor.gd" id="33_rofvo"]
 [ext_resource type="PackedScene" uid="uid://dnwua1dkos0t3" path="res://scenes/ui/army_info.tscn" id="33_tbnf8"]
+[ext_resource type="Script" uid="uid://cbvsw4aaf2ku" path="res://scenes/ui/enter_structure_name/town_name_generator.gd" id="40_6g32y"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_th5th"]
 shader = ExtResource("9_7smn1")
@@ -54,8 +55,10 @@ structure_definitions = Array[ExtResource("2_hujxm")]([ExtResource("3_yyfjg")])
 [node name="HexBorders" parent="." unique_id=857492293 node_paths=PackedStringArray("map") instance=ExtResource("4_yyfjg")]
 map = NodePath("../HexMap")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=159356535]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=159356535 node_paths=PackedStringArray("map")]
 script = ExtResource("1_hyk8p")
+max_zoom = 2.0
+map = NodePath("../HexMap")
 
 [node name="HexMap" parent="." unique_id=869536201 node_paths=PackedStringArray("hex_borders") instance=ExtResource("2_iuonh")]
 tiles = Array[ExtResource("7_62f45")]([ExtResource("8_6g32y"), ExtResource("9_5nwjq"), ExtResource("10_g2upo")])
@@ -291,6 +294,10 @@ visible = false
 z_index = 100
 texture = ExtResource("18_m4h2d")
 script = ExtResource("33_rofvo")
+
+[node name="TownNameGenerator" type="Node" parent="." unique_id=1731500900]
+script = ExtResource("40_6g32y")
+metadata/_custom_type_script = "uid://cbvsw4aaf2ku"
 
 [connection signal="color_picked" from="CanvasLayer/PickColor/MarginContainer/PickColor" to="." method="_on_pick_color_color_picked"]
 [connection signal="pressed" from="CanvasLayer/StructureButtons/BuildButton" to="." method="_on_build_button_pressed"]

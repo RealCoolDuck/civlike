@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cxdgwp0khhtkg"]
+[gd_scene format=4 uid="uid://cxdgwp0khhtkg"]
 
 [ext_resource type="Script" uid="uid://i2iudy3n840f" path="res://scenes/map/hex_map.gd" id="1_tmd4b"]
 [ext_resource type="Script" uid="uid://drhr64g7tn2p" path="res://resources/tiles/hex_tile_definition.gd" id="2_51d80"]
@@ -12,6 +12,7 @@ frequency = 0.05
 
 [node name="HexMap" type="Node2D" unique_id=869536201]
 y_sort_enabled = true
+scale = Vector2(4, 4)
 script = ExtResource("1_tmd4b")
 height_noise = SubResource("FastNoiseLite_ropgo")
 tiles = Array[ExtResource("2_51d80")]([ExtResource("3_mbwj7"), ExtResource("4_7i2la")])
@@ -23,3 +24,28 @@ tile_set = ExtResource("2_eqyvv")
 [node name="HoverTile" parent="." unique_id=1954758253 instance=ExtResource("6_ropgo")]
 bob_height = 1.0
 bob_speed = 2.0
+
+[node name="BorderOverlay" type="CanvasLayer" parent="." unique_id=1076359443]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="BorderOverlay" unique_id=1391346114]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="BorderOverlay/SubViewportContainer" unique_id=2024457658]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(1152, 648)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Borders" type="TileMapLayer" parent="BorderOverlay/SubViewportContainer/SubViewport" unique_id=1738697396]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAD//wAAAAAAAAEAAAAAAAAAAAAAAAEAAAD//wEAAAAAAAEAAAAAAP//AAAAAAEAAAD+/wEAAAAAAAEAAAD+/wAAAAAAAAEAAAD/////AAAAAAEAAAA=")
+tile_set = ExtResource("2_eqyvv")
+
+[node name="BorderCamera" type="Camera2D" parent="BorderOverlay/SubViewportContainer/SubViewport" unique_id=657340582]

@@ -21,11 +21,8 @@ GameState="*uid://rwb7mmq86lql"
 
 [display]
 
-window/size/viewport_width=181
-window/size/viewport_height=102
 window/size/mode=3
 window/stretch/mode="canvas_items"
-window/stretch/scale_mode="integer"
 
 [file_customization]
 

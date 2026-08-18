@@ -7,6 +7,8 @@ extends Camera2D
 @export var min_zoom := 0.2
 @export var max_zoom := 3.0
 
+@export var map: HexMap
+
 var dragging := false
 var zoom_in := false
 var zoom_out := false
@@ -71,6 +73,8 @@ func _process(delta: float) -> void:
 		zoom_camera(-zoom_speed * delta)
 	
 	position += move_direction * pan_speed / zoom.x
+	
+	map.update_border_camera(global_position, zoom)
 		
 func zoom_camera(amount: float):
 	var new_zoom := zoom + Vector2(amount, amount)

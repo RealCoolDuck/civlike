@@ -3,6 +3,7 @@ extends Node2D
 
 @onready var tile_map_layer: TileMapLayer = $Terrain
 @onready var hover_tile: HoverTile = $HoverTile
+@onready var border_camera: Camera2D = $BorderOverlay/SubViewportContainer/SubViewport/BorderCamera
 
 @export var height_noise: FastNoiseLite
 @export var tiles: Array[HexTileDefinition] = []
@@ -35,12 +36,12 @@ var block: bool = false
 signal hex_selected(coords: Vector2i)
 
 const DIRECTIONS: Array[Vector2i] = [
-	Vector2i(0, 1),
-	Vector2i(-1, 0),
-	Vector2i(-1, -1),
-	Vector2i(0, -1),
 	Vector2i(1, 0),
-	Vector2i(1, 1)
+	Vector2i(1, -1),
+	Vector2i(0, -1),
+	Vector2i(-1, 0),
+	Vector2i(-1, 1),
+	Vector2i(0, 1)
 ]
 
 func _ready() -> void:
@@ -156,7 +157,7 @@ func drop_carried_occupants():
 
 func create_hexagon_map(radius: int):
 	set_cell(Vector2i.ZERO)
-	for i in range(1, radius):
+	for i in range(1, radius + 1):
 		create_ring(i)
 
 func create_ring(radius: int):
@@ -283,3 +284,7 @@ func hide_hover_tile():
 
 func _on_blocking_action_end():
 	block = false
+
+func update_border_camera(global_position: Vector2, zoom: Vector2):
+	border_camera.global_position = global_position
+	border_camera.zoom = zoom

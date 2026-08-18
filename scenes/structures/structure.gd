@@ -67,7 +67,7 @@ func highlight_upgradable_tiles():
 
 func draw_border():
 	map.hide_hover_tile()
-	map.hex_borders.draw_border(border)
+	map.hex_borders.draw_all_player_borders()
 
 func select():
 	draw_border()
